@@ -8,6 +8,9 @@
 </template>
 
 <script>
+	// import wxbizdatacrypt from "github.com/xlstudio/wxbizdatacrypt"
+	var WXBizDataCrypt = require('../../common/WXBizDataCrypt.js');
+	//import common from "../../common/common.js";
 	export default {
 		data() {
 			return {
@@ -42,28 +45,24 @@
 				wx.getWeRunData({
 					success: function(res) {
 						console.log(res);
-						debugger
 						console.log("appid:" + appid + "session_key:" + session_key + "encryptedData:" + res.encryptedData + "iv:" + res.iv);
 						var encryptedData = res.encryptedData;
 						var iv = res.iv;
-						debugger
 						//使用解密工具，链接地址：
 						//https://codeload.github.com/gwjjeff/cryptojs/zip/master
 						var pc = new WXBizDataCrypt(appid, session_key);
 						console.log(pc);
-						debugger
 						var data = pc.decryptData(encryptedData, iv)
 						console.log(data)
 						wx.showModal({
-							title: '提示',
-							content: '已经获取数据了，好开心',
+							title: '步数',
+							content: JSON.stringify(data),
 							showCancel: false,
 							confirmText: '知道了'
 						})
 					},
 					fail: function(res) {
 						console.log(res);
-						debugger
 						wx.showModal({
 							title: '提示',
 							content: '开发者未开通微信运动，请关注“微信运动”公众号后重试',
